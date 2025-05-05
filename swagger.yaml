@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Mobile Financial Service API
+  version: 1.0.0
+  description: Swagger docs for MFS backend
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+paths:
+  /api/register:
+    post:
+      tags: [Auth]
+      summary: Register a new user or agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                mobileNumber:
+                  type: string
+                email:
+                  type: string
+                pin:
+                  type: string
+                nid:
+                  type: string
+                role:
+                  type: string
+                  enum: [User, Agent]
+      responses:
+        "201":
+          description: Successful registration
+
+  /api/login:
+    post:
+      tags: [Auth]
+      summary: Login with mobile/email and PIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                pin:
+                  type: string
+      responses:
+        "200":
+          description: Successful login
+  /api/logout:
+    post:
+      tags: [Auth]
+      summary: Logout the user and invalidate session token
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful logout
+        "401":
+          description: Unauthorized
