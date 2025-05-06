@@ -378,6 +378,64 @@ paths:
         "500":
           description: Server error
 
+  /api/admin/blocked-users:
+    get:
+      tags: [Admin]
+      summary: Get all blocked users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of blocked users
+        "403":
+          description: Admin only
+
+  /api/admin/block-user:
+    post:
+      tags: [Admin]
+      summary: Block a user by mobile number
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mobileNumber:
+                  type: string
+      responses:
+        "200":
+          description: User blocked
+        "404":
+          description: User not found
+        "403":
+          description: Admin only
+
+  /api/admin/unblock-user:
+    post:
+      tags: [Admin]
+      summary: Unblock a user by mobile number
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mobileNumber:
+                  type: string
+      responses:
+        "200":
+          description: User unblocked
+        "404":
+          description: User not found
+        "403":
+          description: Admin only
+
 
 components:
   securitySchemes:

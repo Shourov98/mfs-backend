@@ -119,7 +119,38 @@ const approveWithdrawRequest = async (req, res) => {
   res.status(200).json({ message: `Withdraw request ${action}d successfully.` });
 };
 
+const getBlockedUsers = async (req, res) => {
+  if (req.user.role !== "Admin") return res.status(403).json({ message: "Access denied." });
 
+  const blocked = await User.find({ status: "Blocked" }).select("name mobileNumber email");
+  res.status(200).json({ blocked });
+};
+
+const blockUser = async (req, res) => {
+  const { mobileNumber } = req.body;
+  if (req.user.role !== "Admin") return res.status(403).json({ message: "Access denied." });
+
+  const user = await User.findOne({ mobileNumber });
+  if (!user) return res.status(404).json({ message: "User not found." });
+
+  user.status = "Blocked";
+  await user.save();
+
+  res.status(200).json({ message: "User blocked successfully." });
+};
+
+const unblockUser = async (req, res) => {
+  const { mobileNumber } = req.body;
+  if (req.user.role !== "Admin") return res.status(403).json({ message: "Access denied." });
+
+  const user = await User.findOne({ mobileNumber });
+  if (!user) return res.status(404).json({ message: "User not found." });
+
+  user.status = "Active";
+  await user.save();
+
+  res.status(200).json({ message: "User unblocked successfully." });
+};
 
 module.exports = {
   getPendingAgents,
@@ -128,4 +159,7 @@ module.exports = {
   approveCashRequest,
   getWithdrawRequests,
   approveWithdrawRequest,
+  blockUser,
+  unblockUser,
+  getBlockedUsers,
 };
