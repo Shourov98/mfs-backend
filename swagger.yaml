@@ -182,3 +182,206 @@ paths:
           description: Only users can initiate
         "404":
           description: Agent not found or unapproved
+
+  /api/admin/agent-approval:
+    get:
+      tags: [Admin]
+      summary: Get list of pending agent approval requests
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of pending agents
+        "403":
+          description: Admin access required
+
+  /api/admin/agent-approval/{id}:
+    post:
+      tags: [Admin]
+      summary: Approve or reject an agent
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum: [approve, reject]
+      responses:
+        "200":
+          description: Agent status updated
+        "400":
+          description: Invalid input
+        "403":
+          description: Admin only
+        "404":
+          description: Agent not found
+
+  /api/agent/cash-request:
+    post:
+      tags: [Agent]
+      summary: Agent submits a cash balance request
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Cash request submitted
+        "400":
+          description: Request already exists
+        "403":
+          description: Only agents allowed
+        "500":
+          description: Server error
+
+  /api/admin/cash-approval:
+    get:
+      tags: [Admin]
+      summary: View all pending cash requests from agents
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of agents with pending requests
+        "403":
+          description: Admin only
+        "500":
+          description: Server error
+
+  /api/admin/cash-approval/{id}:
+    post:
+      tags: [Admin]
+      summary: Approve or reject agent cash request
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum: [approve, reject]
+      responses:
+        "200":
+          description: Cash request processed
+        "400":
+          description: Invalid action or missing request
+        "403":
+          description: Admin only
+        "404":
+          description: Agent or request not found
+        "500":
+          description: Server error
+
+  /api/agent/withdraw-request:
+    post:
+      tags: [Agent]
+      summary: Agent submits a withdraw request (transfer income to balance)
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Withdraw request submitted
+        "400":
+          description: No income or pending request exists
+        "403":
+          description: Only agents allowed
+        "500":
+          description: Server error
+
+  /api/admin/withdraw-request:
+    get:
+      tags: [Admin]
+      summary: View all pending withdraw requests from agents
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of agents with pending withdraws
+        "403":
+          description: Admin only
+        "500":
+          description: Server error
+
+  /api/admin/withdraw-request/{id}:
+    post:
+      tags: [Admin]
+      summary: Approve or reject an agent's withdraw request
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum: [approve, reject]
+      responses:
+        "200":
+          description: Withdraw request processed
+        "400":
+          description: Invalid input or no request
+        "403":
+          description: Admin only
+        "404":
+          description: Agent or request not found
+        "500":
+          description: Server error
+
+  /api/balance:
+    get:
+      tags: [Transaction]
+      summary: Get account balance (user or agent)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Balance info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+                  income:
+                    type: number
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

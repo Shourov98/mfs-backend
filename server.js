@@ -26,3 +26,7 @@ app.use("/api", authRoutes);
 const transactionRoutes = require("./routes/transactionRoutes");
 app.use("/api", transactionRoutes);
 
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api", adminRoutes);
+
+

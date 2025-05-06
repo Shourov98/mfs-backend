@@ -50,6 +50,32 @@ const userSchema = new mongoose.Schema(
       enum: ["Active", "Pending", "Blocked"],
       default: "Pending",
     },
+    cashRequests: [
+      {
+        status: {
+          type: String,
+          enum: ["Pending", "Approved", "Rejected"],
+          default: "Pending",
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      }
+    ],
+    withdrawRequests: [
+      {
+        status: {
+          type: String,
+          enum: ["Pending", "Approved", "Rejected"],
+          default: "Pending",
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      }
+    ],    
     currentToken: {
       type: String,
       default: null,

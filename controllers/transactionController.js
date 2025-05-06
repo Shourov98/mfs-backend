@@ -230,6 +230,23 @@ const cashOut = async (req, res) => {
   }
 };
 
+const getBalance = async (req, res) => {
+  try {
+    const { role, balance, income } = req.user;
+
+    const response = {
+      balance
+    };
+
+    if (role === "Agent") {
+      response.income = income;
+    }
+
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 
-module.exports = { sendMoney, getTransactionHistory, cashIn, cashOut };
+module.exports = { sendMoney, getTransactionHistory, cashIn, cashOut, getBalance };
