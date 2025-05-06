@@ -59,6 +59,7 @@ paths:
       responses:
         "200":
           description: Successful login
+  
   /api/logout:
     post:
       tags: [Auth]
@@ -70,6 +71,7 @@ paths:
           description: Successful logout
         "401":
           description: Unauthorized
+  
   /api/send-money:
     post:
       tags: [Transaction]
@@ -98,6 +100,7 @@ paths:
           description: Unauthorized or incorrect PIN
         "404":
           description: Receiver not found
+  
   /api/transaction/{id}:
     get:
       tags: [Transaction]
@@ -117,3 +120,65 @@ paths:
           description: Access denied
         "401":
           description: Unauthorized
+  
+  /api/cash-in:
+    post:
+      tags: [Transaction]
+      summary: Agent cash-in to a user (no fee)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverMobileNumber:
+                  type: string
+                amount:
+                  type: number
+                pin:
+                  type: string
+      responses:
+        "201":
+          description: Cash-in successful
+        "403":
+          description: Not an agent
+        "401":
+          description: Incorrect PIN
+        "400":
+          description: Validation or insufficient balance
+        "404":
+          description: Receiver not found
+  
+  /api/cash-out:
+    post:
+      tags: [Transaction]
+      summary: User cashes out to an agent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agentMobileNumber:
+                  type: string
+                amount:
+                  type: number
+                pin:
+                  type: string
+      responses:
+        "201":
+          description: Cash-out successful
+        "400":
+          description: Validation error or insufficient balance
+        "401":
+          description: Incorrect PIN
+        "403":
+          description: Only users can initiate
+        "404":
+          description: Agent not found or unapproved

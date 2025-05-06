@@ -76,10 +76,23 @@ const loginUser = async (req, res) => {
       ]
     });
 
-    if (!user) return res.status(404).json({ message: "User not found." });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
 
     const pinMatch = await bcrypt.compare(pin, user.pin);
-    if (!pinMatch) return res.status(401).json({ message: "Invalid PIN." });
+    if (!pinMatch) {
+      return res.status(401).json({ message: "Invalid PIN." });
+    }
+
+    // ✅ Prevent login if status is not 'Active'
+    if (user.status === "Pending") {
+      return res.status(403).json({ message: "Account is not approved." });
+    }
+
+    if(user.status === "Blocked") {
+      return res.status(403).json({message: "Account is blocked."})
+    }
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
@@ -107,6 +120,7 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const logoutUser = async (req, res) => {
   try {
