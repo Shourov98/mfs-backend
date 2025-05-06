@@ -70,3 +70,50 @@ paths:
           description: Successful logout
         "401":
           description: Unauthorized
+  /api/send-money:
+    post:
+      tags: [Transaction]
+      summary: Send money from one user to another
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiverMobileNumber:
+                  type: string
+                amount:
+                  type: number
+                pin:
+                  type: string
+      responses:
+        "201":
+          description: Send Money successful
+        "400":
+          description: Validation or insufficient balance
+        "401":
+          description: Unauthorized or incorrect PIN
+        "404":
+          description: Receiver not found
+  /api/transaction/{id}:
+    get:
+      tags: [Transaction]
+      summary: Get transaction history for user or agent
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of transactions
+        "403":
+          description: Access denied
+        "401":
+          description: Unauthorized
