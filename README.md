@@ -31,9 +31,10 @@ This is the backend for a Mobile Financial Service (MFS) platform inspired by ap
 ## 🔧 Project Setup
 
 1. **Clone the repo**
-
+```
 git clone https://github.com/yourname/mfs-backend.git
 cd mfs-backend
+```
 
 
 2. **Install dependencies**
@@ -103,7 +104,6 @@ mfs-backend/
 
 MIT License. Free to use and improve.
 
-```
 
 ---
 
@@ -111,4 +111,4 @@ Let me know if you want:
 
 **a.** The same for frontend (`mfs-frontend`) setup  
 **b.** Add setup instructions for Swagger file or MongoDB Atlas connection?
-```
+
