@@ -1,8 +1,3 @@
-Absolutely ✅ — here's a **professional `README.md`** for your **Mobile Financial Service (MFS) Backend** project, written in clean Markdown, with real-world project standards.
-
----
-
-````md
 # 📱 Mobile Financial Service (MFS) Backend
 
 This is the backend for a Mobile Financial Service (MFS) platform inspired by apps like **bKash** and **Nagad**. It is built using **Node.js**, **Express**, and **MongoDB** with **Mongoose**, and provides APIs for secure user/agent/admin account management and financial transactions.
@@ -40,7 +35,7 @@ This is the backend for a Mobile Financial Service (MFS) platform inspired by ap
 ```bash
 git clone https://github.com/yourname/mfs-backend.git
 cd mfs-backend
-````
+
 
 2. **Install dependencies**
 
