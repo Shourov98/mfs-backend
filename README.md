@@ -32,7 +32,6 @@ This is the backend for a Mobile Financial Service (MFS) platform inspired by ap
 
 1. **Clone the repo**
 
-```bash
 git clone https://github.com/yourname/mfs-backend.git
 cd mfs-backend
 
