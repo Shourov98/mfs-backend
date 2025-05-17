@@ -11,7 +11,7 @@ connectDB();
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',  // your frontend URL
+  origin: '*',  // your frontend URL
   credentials: true,                 // if you use cookies or auth headers
 }));
 
