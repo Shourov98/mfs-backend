@@ -2,12 +2,18 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const app = express();
+const cors = require("cors");
 app.use(express.json());
 
 
 dotenv.config();
 connectDB();
 
+
+app.use(cors({
+  origin: 'http://localhost:3000',  // your frontend URL
+  credentials: true,                 // if you use cookies or auth headers
+}));
 
 
 // Swagger (if added)
@@ -28,5 +34,8 @@ app.use("/api", transactionRoutes);
 
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api", adminRoutes);
+
+const agentRoutes = require("./routes/agentRoutes");
+app.use("/api", agentRoutes);
 
 
